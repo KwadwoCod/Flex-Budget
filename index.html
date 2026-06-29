@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlexBudget — Built for income that never looks the same twice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════
+       SCREEN 1 — LANDING
+  ════════════════════════════════════════ -->
+  <div class="screen active" id="screen-landing">
+    <div class="landing-inner">
+
+      <div class="pulse-ring-wrap">
+        <div class="pulse-ring" id="pulse-ring">
+          <div class="pulse-core">
+            <span class="pulse-dollar">$</span>
+          </div>
+        </div>
+        <div class="pulse-ripple r1"></div>
+        <div class="pulse-ripple r2"></div>
+        <div class="pulse-ripple r3"></div>
+      </div>
+
+      <div class="landing-text">
+        <h1 class="logo-main">Flex<span class="accent">Budget</span></h1>
+        <p class="landing-slogan">Built for income that never<br>looks the same twice.</p>
+        <p class="landing-sub">Freelancers. Gig workers. Side hustlers.<br>Finally — a budget that bends with you.</p>
+        <button class="cta-btn" id="start-btn">
+          <span>Start budgeting</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div class="landing-features">
+        <div class="feat"><span class="feat-icon">🎯</span><span>Confidence Score</span></div>
+        <div class="feat"><span class="feat-icon">⚡</span><span>Surge Alerts</span></div>
+        <div class="feat"><span class="feat-icon">📊</span><span>Live Charts</span></div>
+        <div class="feat"><span class="feat-icon">🏅</span><span>Budget Badges</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SCREEN 2 — INCOME ENTRY
+  ════════════════════════════════════════ -->
+  <div class="screen" id="screen-income">
+    <div class="screen-header">
+      <button class="back-btn" id="back-to-landing">← back</button>
+      <div class="step-label">Step 1 of 2 — Income</div>
+    </div>
+
+    <div class="income-screen-inner">
+      <h2 class="screen-title">What did you<br><span class="accent">earn this month?</span></h2>
+      <p class="screen-sub">Every source counts. Add as many as you need.</p>
+
+      <div class="sources-wrap" id="sources-wrap">
+        <div class="source-row" data-index="0">
+          <div class="source-tag">01</div>
+          <input type="text" class="src-name" placeholder="e.g. Freelance design" />
+          <div class="src-amount-wrap">
+            <span class="dollar-sign">$</span>
+            <input type="number" class="src-amount" placeholder="0" min="0" />
+          </div>
+          <button class="remove-source hidden" title="Remove">×</button>
+        </div>
+      </div>
+
+      <button class="add-source-btn" id="add-source-btn">
+        <span>+</span> Add another source
+      </button>
+
+      <div class="divider"></div>
+
+      <div class="history-section">
+        <h3 class="history-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          Recent months <span class="optional-tag">optional — improves accuracy</span>
+        </h3>
+        <div class="history-inputs">
+          <div class="history-field">
+            <label>2 months ago</label>
+            <div class="src-amount-wrap">
+              <span class="dollar-sign">$</span>
+              <input type="number" id="past1" placeholder="0" min="0" />
+            </div>
+          </div>
+          <div class="history-field">
+            <label>Last month</label>
+            <div class="src-amount-wrap">
+              <span class="dollar-sign">$</span>
+              <input type="number" id="past2" placeholder="0" min="0" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="income-preview" id="income-preview">
+        <span class="preview-label">Total this month</span>
+        <span class="preview-amount" id="preview-total">$0</span>
+      </div>
+
+      <button class="cta-btn full" id="calculate-btn">
+        <span>See my budget</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════
+       SCREEN 3 — DASHBOARD
+  ════════════════════════════════════════ -->
+  <div class="screen" id="screen-dashboard">
+    <div class="screen-header">
+      <button class="back-btn" id="back-to-income">← edit income</button>
+      <div class="step-label">Step 2 of 2 — Dashboard</div>
+    </div>
+
+    <div class="dashboard-inner">
+
+      <!-- Meter + Confidence -->
+      <div class="meter-section">
+        <div class="meter-wrap">
+          <canvas id="meterCanvas" width="220" height="220"></canvas>
+          <div class="meter-center">
+            <div class="meter-score" id="meter-score">0</div>
+            <div class="meter-label">confidence</div>
+          </div>
+        </div>
+
+        <div class="meter-info">
+          <div class="confidence-status" id="confidence-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-text">Calculating...</span>
+          </div>
+          <div class="surge-pill hidden" id="surge-pill">
+            ⚡ Surge detected — save first
+          </div>
+          <div class="compliance-pill hidden" id="compliance-pill">
+            🏅 On track — keep it up
+          </div>
+          <p class="meter-explain" id="meter-explain"></p>
+        </div>
+      </div>
+
+      <!-- Budget Bars -->
+      <div class="budget-bars" id="budget-bars">
+        <div class="bar-row" id="bar-spend">
+          <div class="bar-meta">
+            <span class="bar-label">Safe to spend</span>
+            <span class="bar-val" id="val-spend">$0</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill teal" id="fill-spend"></div></div>
+        </div>
+        <div class="bar-row" id="bar-save">
+          <div class="bar-meta">
+            <span class="bar-label">Save</span>
+            <span class="bar-val" id="val-save">$0</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill amber" id="fill-save"></div></div>
+        </div>
+        <div class="bar-row" id="bar-buffer">
+          <div class="bar-meta">
+            <span class="bar-label">Emergency buffer</span>
+            <span class="bar-val" id="val-buffer">$0</span>
+          </div>
+          <div class="bar-track"><div class="bar-fill coral" id="fill-buffer"></div></div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tracker">Expense Tracker</button>
+        <button class="tab-btn" data-tab="chart">Breakdown</button>
+      </div>
+
+      <!-- Tab: Tracker -->
+      <div class="tab-panel active" id="tab-tracker">
+        <div class="expense-add">
+          <input type="text" id="exp-cat" placeholder="Category (e.g. Rent)" />
+          <div class="src-amount-wrap">
+            <span class="dollar-sign">$</span>
+            <input type="number" id="exp-amt" placeholder="0" min="0" />
+          </div>
+          <button class="add-exp-btn" id="add-exp-btn">Add</button>
+        </div>
+
+        <div class="expense-list-wrap" id="expense-list">
+          <div class="empty-state">No expenses logged yet.<br>Add one above to start tracking.</div>
+        </div>
+
+        <div class="spent-bar-wrap" id="spent-bar-wrap">
+          <div class="spent-bar-meta">
+            <span>Spent: <strong id="total-spent">$0</strong></span>
+            <span id="remaining-label">Remaining: <strong id="remaining" class="pos">$0</strong></span>
+          </div>
+          <div class="spent-track">
+            <div class="spent-fill" id="spent-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Chart -->
+      <div class="tab-panel" id="tab-chart">
+        <div class="chart-empty" id="chart-empty">Add expenses to see your breakdown.</div>
+        <div class="chart-wrap hidden" id="chart-wrap">
+          <canvas id="spendingChart"></canvas>
+        </div>
+      </div>
+
+      <button class="restart-btn" id="restart-btn">↺ Start a new month</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast hidden" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
